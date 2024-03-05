@@ -67,9 +67,9 @@ def check_if_empty(message):
     """Проверяет, какие товары отсутсвуют на складе поставщика"""
     oz_goods = stock_dict[message.chat.id].oz_goods
     shop_stock = stock_dict[message.chat.id].shop_stock
-    oz_goods = {key: val for key, val in oz_goods.items() if val != 0}
+    oz_goods = {key: val for key, val in oz_goods.items() if val != 0 and not key.endswith(('_1', '_2', '_3', '_4'))}
     zero_stock = set(oz_goods.keys()) - set(shop_stock.keys())
-    return zero_stock
+    return zero_stock if zero_stock else ['Отсутствующих товаров нет']
 
 
 def check_if_not_empty(message):
@@ -78,7 +78,7 @@ def check_if_not_empty(message):
     shop_stock = stock_dict[message.chat.id].shop_stock
     empty_stock = {key: val for key, val in oz_goods.items() if val == 0}
     not_empty = set(empty_stock.keys()) & set(shop_stock.keys())
-    return not_empty
+    return not_empty if not_empty else ['Отсутствующих товаров нет']
 
 
-needed_art = ('JSL', 'JBP', 'JAA', 'JAS', 'JDW', 'JSB', 'JDA', 'JFM', 'JPP', 'JDK', 'JBS', 'JSR')
+needed_art = ('JSL', 'JBP', 'JAA', 'JAS', 'JDW', 'JSB', 'JDA', 'JFM', 'JPP', 'JDK', 'JBS', 'JSR', 'JPS')
